@@ -277,9 +277,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ceb0ba0f28b3496a86e19db923a5bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDebugAnimation: 0
+  IsDebugAnimation: 1
   CharPrefab: {fileID: 6776673283961152437, guid: 1f8d55be63c8f43428364e7a57892d98,
     type: 3}
+  micInput: {fileID: 1248978299}
 --- !u!1001 &412814135
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5718,7 +5719,7 @@ PrefabInstance:
     - target: {fileID: 3691104062323120115, guid: 3a6610ea371eb475ba8613983a03ac01,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a6610ea371eb475ba8613983a03ac01, type: 3}
@@ -5757,6 +5758,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c81b7a59c59384304b8f5dfe9c154fc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _loudThreshold: 10
+  _freqThreshold: 60
+  _singCounter: 0
+  _silentCounter: 0
 --- !u!4 &1248978300
 Transform:
   m_ObjectHideFlags: 0
