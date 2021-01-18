@@ -21,8 +21,12 @@ public class MicInput : MonoBehaviour
         set
         {
             _isSinging = value;
+            IsSinging= value;
         }
     }
+
+    public static bool IsSinging;
+
     public int _singCounter;
     public int _silentCounter;
     //mic initialization
@@ -95,7 +99,7 @@ public class MicInput : MonoBehaviour
             ResetCounter();
             SingingState = true;
         }
-        else if (_silentCounter > _freqThreshold*.5f)// cut exit threshold by half to sync dance move when stop singing
+        else if (_silentCounter > _freqThreshold)// cut exit threshold by half to sync dance move when stop singing
         {
             Debug.Log("Is Silent");
             ResetCounter();
