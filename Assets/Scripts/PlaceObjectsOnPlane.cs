@@ -12,8 +12,10 @@ public class PlaceObjectsOnPlane : MonoBehaviour
     GameObject m_PlacedPrefab;
 
     [SerializeField]
-
     Transform _arCamera;
+
+    [SerializeField] private UIElement btn_hide;
+
 
     /// <summary>
     /// The prefab to instantiate on touch.
@@ -92,6 +94,7 @@ public class PlaceObjectsOnPlane : MonoBehaviour
     public void HidePlane()
     {
         TogglePlaneDetection(false);
+        btn_hide.gameObject.SetActive(true);
 
         if (spawnedObject != null)
             spawnedObject.SetActive(true);
@@ -101,6 +104,8 @@ public class PlaceObjectsOnPlane : MonoBehaviour
     public void ShowPlane()
     {
         TogglePlaneDetection(true);
+        btn_hide.gameObject.SetActive(false);
+
         if (spawnedObject != null)
             spawnedObject.SetActive(false);
     }
@@ -126,7 +131,7 @@ public class PlaceObjectsOnPlane : MonoBehaviour
             plane.gameObject.SetActive(value);
         }
 
-        _planeManager.planePrefab.SetActive(value);
-        _cloudManager.pointCloudPrefab.gameObject.SetActive(value);
+        // _planeManager.planePrefab.SetActive(value);
+        // _cloudManager.gameObject.SetActive(value);
     }
 }

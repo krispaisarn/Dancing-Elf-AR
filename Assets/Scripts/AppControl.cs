@@ -13,16 +13,15 @@ public class AppControl : MonoBehaviour
     [SerializeField]
     private Camera _arCamera;
 
-    void Start()
-    {
+    [SerializeField]
+    private Replay _replay;
 
-    }
+    [SerializeField] private UIElement btn_rec;
+    [SerializeField] private UIElement btn_stopRec;
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
+
+    private bool _isRecording;
 
     public void ShowEffect(int _fx)
     {
@@ -63,6 +62,20 @@ public class AppControl : MonoBehaviour
         Destroy(rt);
 
         return screenShot;
+    }
+
+    public void VideoCapture()
+    {
+
+#if PLATFORM_IOS
+        _replay.RecordScreen();
+#endif
+        _isRecording = !_isRecording;
+
+        btn_rec.gameObject.SetActive(!_isRecording);
+        btn_stopRec.gameObject.SetActive(_isRecording);
+
+
     }
 
 }
