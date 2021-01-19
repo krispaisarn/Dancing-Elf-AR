@@ -4,11 +4,11 @@
 public class UIComponent : ScriptableObject
 {
     [SerializeField] string id;
-    [SerializeField] float width=100;
-    [SerializeField] float height=100;
+    [SerializeField] float width;
+    [SerializeField] float height;
     [SerializeField] Sprite icon;
-    [SerializeField] Color color=Color.white;
-    [SerializeField] Color backgroundColor=Color.white;
+    [SerializeField] Color color;
+    [SerializeField] Color backgroundColor;
 
     public string ID
     {
