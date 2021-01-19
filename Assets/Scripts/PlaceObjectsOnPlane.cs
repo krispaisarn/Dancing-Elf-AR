@@ -36,6 +36,10 @@ public class PlaceObjectsOnPlane : MonoBehaviour
 
     ARRaycastManager m_RaycastManager;
 
+    [SerializeField] private ARPlaneManager _planeManager;
+    [SerializeField] private ARPointCloudManager _cloudManager;
+
+
     static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
 
     [SerializeField]
@@ -66,12 +70,14 @@ public class PlaceObjectsOnPlane : MonoBehaviour
                         Vector3 direction_to_camera = _arCamera.transform.position - spawnedObject.transform.position;
                         Quaternion rotation = Quaternion.LookRotation(direction_to_camera, Vector3.up);
                         transform.rotation = rotation;
-                        
+
+                        HidePlane();
                         m_NumberOfPlacedObjects++;
                     }
                     else
                     {
                         spawnedObject.transform.SetPositionAndRotation(hitPose.position, hitPose.rotation);
+                        HidePlane();
                     }
 
                     if (onPlacedObject != null)
@@ -81,5 +87,46 @@ public class PlaceObjectsOnPlane : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void HidePlane()
+    {
+        TogglePlaneDetection(false);
+
+        if (spawnedObject != null)
+            spawnedObject.SetActive(true);
+
+    }
+
+    public void ShowPlane()
+    {
+        TogglePlaneDetection(true);
+        if (spawnedObject != null)
+            spawnedObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Toggles plane detection and the visualization of the planes.
+    /// </summary>
+    public void TogglePlaneDetection(bool _isEnabled)
+    {
+        SetAllPlanesActive(_isEnabled);
+
+    }
+
+    /// <summary>
+    /// Iterates over all the existing planes and activates
+    /// or deactivates their <c>GameObject</c>s'.
+    /// </summary>
+    /// <param name="value">Each planes' GameObject is SetActive with this value.</param>
+    void SetAllPlanesActive(bool value)
+    {
+        foreach (var plane in _planeManager.trackables)
+        {
+            plane.gameObject.SetActive(value);
+        }
+
+        _planeManager.planePrefab.SetActive(value);
+        _cloudManager.pointCloudPrefab.gameObject.SetActive(value);
     }
 }
