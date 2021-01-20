@@ -44,6 +44,7 @@ public class PlaceObjectsOnPlane : MonoBehaviour
     [SerializeField] private bool _isPlaneVisible = true;
 
     [SerializeField] private Transform _fxT;
+    [SerializeField] private GameObject _floor;
 
     static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
 
@@ -118,6 +119,8 @@ public class PlaceObjectsOnPlane : MonoBehaviour
     public void HidePlane()
     {
         _fxT.position = spawnedObject.transform.position;
+        _floor.transform.position = spawnedObject.transform.position; // track effect and floor to character
+        _floor.SetActive(true); //to not block raycast
 
         TogglePlaneDetection(false);
         btn_hide.gameObject.SetActive(true);
@@ -130,6 +133,8 @@ public class PlaceObjectsOnPlane : MonoBehaviour
 
     public void ShowPlane()
     {
+        _floor.SetActive(false);
+
         TogglePlaneDetection(true);
         btn_hide.gameObject.SetActive(false);
         _isPlaneVisible = true;

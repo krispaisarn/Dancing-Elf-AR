@@ -19,9 +19,22 @@ public class AppControl : MonoBehaviour
     [SerializeField] private UIElement btn_rec;
     [SerializeField] private UIElement btn_stopRec;
 
-
-
     private bool _isRecording;
+
+    [SerializeField] private CanvasGroup flashCG;
+    private bool flash = false;
+    private void Update()
+    {
+        if (flash)
+        {
+            flashCG.alpha = flashCG.alpha - (Time.deltaTime * (1 / .2f));
+            if (flashCG.alpha <= 0)
+            {
+                flashCG.alpha = 0;
+                flash = false;
+            }
+        }
+    }
 
     public void ShowEffect(int _fx)
     {
@@ -39,13 +52,20 @@ public class AppControl : MonoBehaviour
 
     public void Capture()
     {
-
         Texture2D image = RTImage(_arCamera);
-
 
         NativeGallery.SaveImageToGallery(image, "Dancing Elf AR", "elf_" + DateTime.Now.ToString("yyyyMMdd_hhmmss") + ".jpg", (success, path) => Debug.Log("Media save result: " + success + " " + path));
 
+        TriggerFlash();
     }
+
+
+    private void TriggerFlash()
+    {
+        flash = true;
+        flashCG.alpha = 1;
+    }
+
 
     Texture2D RTImage(Camera camera)
     {
@@ -74,8 +94,6 @@ public class AppControl : MonoBehaviour
 
         btn_rec.gameObject.SetActive(!_isRecording);
         btn_stopRec.gameObject.SetActive(_isRecording);
-
-
     }
 
 }
