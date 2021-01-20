@@ -41,6 +41,9 @@ public class PlaceObjectsOnPlane : MonoBehaviour
     [SerializeField] private ARPlaneManager _planeManager;
     [SerializeField] private ARPointCloudManager _cloudManager;
 
+    [SerializeField] private bool _isPlaneVisible = true;
+
+    [SerializeField] private Transform _fxT;
 
     static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
 
@@ -68,17 +71,16 @@ public class PlaceObjectsOnPlane : MonoBehaviour
 
                     if (m_NumberOfPlacedObjects < m_MaxNumberOfObjectsToPlace)
                     {
-                        spawnedObject = Instantiate(m_PlacedPrefab, hitPose.position, hitPose.rotation);
-                        Vector3 direction_to_camera = _arCamera.transform.position - spawnedObject.transform.position;
-                        Quaternion rotation = Quaternion.LookRotation(direction_to_camera, Vector3.up);
-                        transform.rotation = rotation;
+                        spawnedObject = Instantiate(m_PlacedPrefab, hitPose.position, m_PlacedPrefab.transform.rotation);
+
+                        m_NumberOfPlacedObjects++;
 
                         HidePlane();
-                        m_NumberOfPlacedObjects++;
                     }
-                    else
+
+                    if (_isPlaneVisible)
                     {
-                        spawnedObject.transform.SetPositionAndRotation(hitPose.position, hitPose.rotation);
+                        spawnedObject.transform.SetPositionAndRotation(hitPose.position, spawnedObject.transform.rotation);
                         HidePlane();
                     }
 
@@ -89,12 +91,37 @@ public class PlaceObjectsOnPlane : MonoBehaviour
                 }
             }
         }
+        RotateChar();
+
     }
 
+    private float _touchDownX;
+    private float _rotateSpeed = 10;
+    private void RotateChar()
+    {
+        if (spawnedObject == null)
+            return;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            _touchDownX = Input.mousePosition.x;
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            float touchXDelta = Input.mousePosition.x - _touchDownX;
+            spawnedObject.transform.Rotate(Vector3.up, -touchXDelta * _rotateSpeed * Time.deltaTime);
+
+            _touchDownX = Input.mousePosition.x;
+        }
+    }
     public void HidePlane()
     {
+        _fxT.position = spawnedObject.transform.position;
+
         TogglePlaneDetection(false);
         btn_hide.gameObject.SetActive(true);
+        _isPlaneVisible = false;
 
         if (spawnedObject != null)
             spawnedObject.SetActive(true);
@@ -105,6 +132,7 @@ public class PlaceObjectsOnPlane : MonoBehaviour
     {
         TogglePlaneDetection(true);
         btn_hide.gameObject.SetActive(false);
+        _isPlaneVisible = true;
 
         if (spawnedObject != null)
             spawnedObject.SetActive(false);
@@ -126,12 +154,19 @@ public class PlaceObjectsOnPlane : MonoBehaviour
     /// <param name="value">Each planes' GameObject is SetActive with this value.</param>
     void SetAllPlanesActive(bool value)
     {
-        foreach (var plane in _planeManager.trackables)
+        var planes = _planeManager.trackables;
+        foreach (var plane in planes)
         {
             plane.gameObject.SetActive(value);
         }
 
-        // _planeManager.planePrefab.SetActive(value);
-        // _cloudManager.gameObject.SetActive(value);
+        _planeManager.enabled = value;
+
+        var points = _cloudManager.trackables;
+        foreach (var pts in points)
+        {
+            pts.gameObject.SetActive(value);
+        }
+        _cloudManager.enabled = value;
     }
 }

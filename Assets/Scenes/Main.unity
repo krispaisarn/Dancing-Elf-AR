@@ -723,6 +723,8 @@ MonoBehaviour:
   btn_hide: {fileID: 2118381792}
   _planeManager: {fileID: 754678454}
   _cloudManager: {fileID: 754678453}
+  _cloudPointVisualizer: {fileID: 940313561}
+  _cloudPoint: {fileID: 940313562}
   m_MaxNumberOfObjectsToPlace: 1
 --- !u!114 &754678452
 MonoBehaviour:
