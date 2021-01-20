@@ -13,8 +13,12 @@ public class AppControl : MonoBehaviour
     [SerializeField]
     private Camera _arCamera;
 
-    [SerializeField]
-    private Replay _replay;
+#if PLATFORM_IOS
+    [SerializeField] private Replay _replay;
+#endif
+#if PLATFORM_ANDROID
+    [SerializeField] private AndroidScreenRecorder _androidRecorder;
+#endif
 
     [SerializeField] private UIElement btn_rec;
     [SerializeField] private UIElement btn_stopRec;
@@ -90,6 +94,10 @@ public class AppControl : MonoBehaviour
 #if PLATFORM_IOS
         _replay.RecordScreen();
 #endif
+#if PLATFORM_ANDROID
+_androidRecorder.RecordScreen();
+#endif
+
         _isRecording = !_isRecording;
 
         btn_rec.gameObject.SetActive(!_isRecording);
