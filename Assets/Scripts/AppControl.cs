@@ -27,6 +27,11 @@ public class AppControl : MonoBehaviour
 
     [SerializeField] private CanvasGroup flashCG;
     private bool flash = false;
+
+    private void Start(){
+        btn_rec.gameObject.SetActive(false);
+    }
+
     private void Update()
     {
         if (flash)
@@ -90,7 +95,6 @@ public class AppControl : MonoBehaviour
 
     public void VideoCapture()
     {
-
 #if PLATFORM_IOS
         _replay.RecordScreen();
 #endif
