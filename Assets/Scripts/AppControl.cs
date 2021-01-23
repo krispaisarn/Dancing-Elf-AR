@@ -29,7 +29,9 @@ public class AppControl : MonoBehaviour
     private bool flash = false;
 
     private void Start(){
+        #if PLATFORM_ANDROID
         btn_rec.gameObject.SetActive(false);
+        #endif
     }
 
     private void Update()

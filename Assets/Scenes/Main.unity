@@ -431,7 +431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _effects: {fileID: 804824939}
   _arCamera: {fileID: 1618438248}
-  _androidRecorder: {fileID: 1773759142}
+  _replay: {fileID: 1773759140}
   btn_rec: {fileID: 794036511}
   btn_stopRec: {fileID: 600653}
   flashCG: {fileID: 835805388}
@@ -7301,6 +7301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77dcdb82d878b469e9e036aa1aa38bc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableMicrophone: 1
 --- !u!4 &1773759141
 Transform:
   m_ObjectHideFlags: 0
